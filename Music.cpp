@@ -1,11 +1,13 @@
 #include "Music.h"
 
-Music::Music()
+Music::Music(GameObject& associated)
+	:Component(associated)
 {
 	music = nullptr;
 }
 
-Music::Music(std::string file)
+Music::Music(GameObject& associated, std::string file)
+	: Component(associated)
 {
 	music = nullptr;
 	Open(file);

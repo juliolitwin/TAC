@@ -1,15 +1,16 @@
 #include "Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite()
+Sprite::Sprite(GameObject& associated)
+	: Component(associated)
+	, texture(nullptr)
 {
-	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file)
+Sprite::Sprite(GameObject& associated, std::string file)
+	: Component(associated)
+	, texture(nullptr)
 {
-	texture = nullptr;
-
 	Open(file);
 }
 
@@ -40,13 +41,14 @@ void Sprite::SetClip(int x, int y, int w, int h)
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y)
+void Sprite::Render()
 {
 	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
-	dst.w = GetWidth();
-	dst.h = GetHeight();
+	
+	dst.x = (int)associated.box.x;
+	dst.y = (int)associated.box.y;
+	dst.w = clipRect.w;
+	dst.h = clipRect.h;
 
 	if (SDL_RenderCopy(APPLICATION->GetRenderer(), texture, &clipRect, &dst) != 0)
 	{

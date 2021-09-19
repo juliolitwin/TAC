@@ -43,7 +43,6 @@ void Game::Init()
 	// Image init.
 	if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF) < 0)
 	{
-		auto a = SDL_GetError();
 		printf(SDL_GetError());
 		return;
 	}
