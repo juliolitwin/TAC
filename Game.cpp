@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "time.h"
 #include <assert.h>
+#include "Resources.h"
 
 Game* Game::instance = 0;
 
@@ -19,6 +20,11 @@ Game::Game(std::string title, int w, int h)
 Game::~Game()
 {
 	delete state;
+
+	// Release memory.
+	RESOURCES->ClearImages();
+	RESOURCES->ClearMusics();
+	RESOURCES->ClearSounds();
 
 	IMG_Quit();
 
@@ -85,6 +91,8 @@ void Game::Run()
 	{
 		state->Update(0.0f);
 		state->Render();
+
+		SDL_RenderPresent(renderer);
 
 		SDL_Delay(33);
 	}

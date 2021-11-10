@@ -12,7 +12,6 @@ class Game
 	static Game* instance;
 
 public:
-
 	// Constructor.
 	Game(std::string tittle, int width, int height);
 	~Game();

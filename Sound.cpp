@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include "Resources.h"
 
 Sound::Sound(GameObject& associated)
 	: Component(associated)
@@ -15,11 +16,13 @@ Sound::Sound(GameObject& associated, std::string file)
 
 Sound::~Sound()
 {
+#if false
 	if (chunk == nullptr)
 		return;
 
 	Mix_HaltChannel(channel);
 	Mix_FreeChunk(chunk);
+#endif
 }
 
 void Sound::Play(int times)
@@ -44,9 +47,7 @@ void Sound::Stop()
 
 void Sound::Open(std::string file)
 {
-	chunk = Mix_LoadWAV(file.c_str());
+	chunk = RESOURCES->GetSound(file);
 	if (chunk != nullptr)
-	{
 		printf(SDL_GetError());
-	}
 }

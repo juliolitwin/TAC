@@ -21,6 +21,7 @@ public:
 
 	void Update(float dt) override {}
 	void Render() override;
+	void Render(int x, int y);
 
 public:
 	int GetWidth() { return width; }

@@ -1,4 +1,5 @@
 #include "Music.h"
+#include "Resources.h"
 
 Music::Music(GameObject& associated)
 	:Component(associated)
@@ -15,16 +16,16 @@ Music::Music(GameObject& associated, std::string file)
 
 Music::~Music()
 {
+#if false
 	if(music != nullptr)
 		Mix_FreeMusic(music);
+#endif
 }
 
 void Music::Play(int times)
 {
 	if (music != nullptr)
-	{
 		Mix_PlayMusic(music, times);
-	}
 }
 
 void Music::Stop(int msToStop)
@@ -34,7 +35,7 @@ void Music::Stop(int msToStop)
 
 void Music::Open(std::string file)
 {
-	music = Mix_LoadMUS(file.c_str());
+	music = RESOURCES->GetMusic(file);
 	if (music == nullptr)
 	{
 		printf(SDL_GetError());

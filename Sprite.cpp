@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Game.h"
+#include "Resources.h"
 
 Sprite::Sprite(GameObject& associated)
 	: Component(associated)
@@ -16,13 +17,15 @@ Sprite::Sprite(GameObject& associated, std::string file)
 
 Sprite::~Sprite()
 {
+#if false
 	if (texture != nullptr)
 		SDL_DestroyTexture(texture);
+#endif
 }
 
 void Sprite::Open(std::string file)
 {
-	texture = IMG_LoadTexture(APPLICATION->GetRenderer(), file.c_str());
+	texture = RESOURCES->GetImage(file);
 	if (texture == nullptr)
 	{
 		printf(SDL_GetError());
@@ -43,10 +46,15 @@ void Sprite::SetClip(int x, int y, int w, int h)
 
 void Sprite::Render()
 {
+	Render(associated.box.x, associated.box.y);
+}
+
+void Sprite::Render(int x, int y)
+{
 	SDL_Rect dst;
-	
-	dst.x = (int)associated.box.x;
-	dst.y = (int)associated.box.y;
+
+	dst.x = x;
+	dst.y = y;
 	dst.w = clipRect.w;
 	dst.h = clipRect.h;
 
@@ -56,5 +64,7 @@ void Sprite::Render()
 		return;
 	}
 
+#if false
 	SDL_RenderPresent(APPLICATION->GetRenderer());
+#endif
 }

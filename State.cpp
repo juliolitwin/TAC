@@ -9,6 +9,8 @@
 #include "Face.h"
 #include "Vec2.h"
 #include "Rect.h"
+#include "TileSet.h"
+#include "TileMap.h"
 
 State::State()
 {
@@ -25,11 +27,20 @@ State::~State()
 void State::LoadAssets()
 {
 	std::unique_ptr<GameObject> go = std::unique_ptr<GameObject>(new GameObject());
-
+	go->box.x = 0;
+	go->box.y = 0;
 	go->AddComponent(new Sprite(*go, ".\\data\\img\\ocean.jpg"));
 	go->AddComponent(new Music(*go, ".\\data\\audio\\stageState.ogg"));
-
 	objectArray.push_back(std::move(go));
+
+	std::unique_ptr<GameObject> go2 = std::unique_ptr<GameObject>(new GameObject());
+	go2->box.x = 0;
+	go2->box.y = 0;
+	TileSet* tileSet = new TileSet(*go2, 64, 64, ".\\data\\img\\tileset.png");
+	TileMap* tileMap = new TileMap(*go2, ".\\data\\map\\tileMap.txt", tileSet);
+	go2->AddComponent(tileMap);
+	
+	objectArray.push_back(std::move(go2));
 }
 
 void State::Update(float dt)
